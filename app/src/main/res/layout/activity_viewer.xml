@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.viewer.ViewerActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/main_conainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <FrameLayout
+            android:id="@+id/local_video_view_container"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/virtual_bg"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/remote_video_view_container"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_below="@+id/local_video_view_container"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/virtual_bg"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/messageEditText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="16dp"
+            android:hint="@string/write_something"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/sendMessageButton"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <ImageView
+            android:id="@+id/sendMessageButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="16dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:srcCompat="@drawable/ic_baseline_send" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/messageRecyclerView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="16dp"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toTopOf="@+id/messageEditText"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:ignore="SpeakableTextPresentCheck"
+            tools:listitem="@layout/image_item_layout" />
+
+        <ImageView
+            android:id="@+id/closeIv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_baseline_close_24" />
+
+        <ImageView
+            android:id="@+id/muteIv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintEnd_toStartOf="@id/closeIv"
+            app:layout_constraintTop_toTopOf="@+id/closeIv"
+            app:srcCompat="@drawable/mute_icon_white" />
+
+        <TextView
+            android:id="@+id/no_of_viewer_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:drawablePadding="4dp"
+            android:padding="8dp"
+            android:textColor="@color/white"
+            app:drawableStartCompat="@drawable/no_of_viewer"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="200" />
+
+        <LinearLayout
+            android:id="@+id/question_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="16dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@+id/messageRecyclerView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@android:color/transparent">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/small_video_container"
+                    android:layout_width="134dp"
+                    android:layout_height="143dp"
+                    android:elevation="0dp"
+                    android:layout_gravity="center"
+                    app:cardBackgroundColor="@android:color/transparent"
+                    app:cardCornerRadius="70dp" />
+
+                <com.mikhaellopez.circularprogressbar.CircularProgressBar
+                    android:id="@+id/circularProgressBar"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    app:cpb_background_progressbar_color="@android:color/transparent"
+                    app:cpb_background_progressbar_width="5dp"
+                    app:cpb_progress="100"
+                    app:cpb_progress_direction="to_left"
+                    app:cpb_progressbar_color="@color/rad_green"
+                    app:cpb_progressbar_color_direction="right_to_left"
+                    app:cpb_progressbar_width="6dp"
+                    app:cpb_round_border="false" />
+
+            </FrameLayout>
+
+
+            <TextView
+                android:id="@+id/question_number_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:textColor="@color/question_white"
+                android:textSize="16sp"
+                tools:text="Question 2 of 10" />
+
+            <TextView
+                android:id="@+id/question_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:gravity="center"
+                android:textColor="@color/question_white"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                tools:text="Which singer has the most followers on instagram?" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/options_recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:orientation="vertical"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:itemCount="3"
+                tools:listitem="@layout/vote_list_item" />
+
+            <TextView
+                android:id="@+id/time_took_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:textColor="@color/question_white"
+                android:textSize="16sp"
+                tools:text="Question 2 of 10" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:src="@drawable/power_up"
+                android:visibility="invisible" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tip_tv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="100dp"
+            android:background="@drawable/light_purple_bg_rounded"
+            android:gravity="center"
+            android:padding="24dp"
+            android:text="@string/tip_before_quiz"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@+id/messageRecyclerView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/timer_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp"
+            android:textColor="@color/yellow"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toTopOf="@+id/tip_tv"
+            app:layout_constraintEnd_toEndOf="@+id/tip_tv"
+            app:layout_constraintStart_toStartOf="@+id/tip_tv"
+            tools:text="Game Starting: 03:56" />
+
+        <ImageView
+            android:id="@+id/imageView15"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:src="@drawable/circle_bg"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.484"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/counter_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="120sp"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView15"
+            app:layout_constraintEnd_toEndOf="@+id/imageView15"
+            app:layout_constraintStart_toStartOf="@+id/imageView15"
+            app:layout_constraintTop_toTopOf="@+id/imageView15"
+            tools:text="5" />
+
+        <TextView
+            android:id="@+id/right_back_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginBottom="32dp"
+            android:text="@string/we_be_nright_nback"
+            android:textColor="@color/white"
+            android:textSize="60sp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@+id/timer_tv"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/counter_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="counter_tv,imageView15" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/timer_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:constraint_referenced_ids="timer_tv,tip_tv" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <FrameLayout
+        android:id="@+id/leader_board_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/calculate_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/splashbg"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ciucular_bg"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/animationView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/calculate_loading" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/calculating_score"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@id/imageView2"
+            app:layout_constraintStart_toStartOf="@id/imageView2"
+            app:layout_constraintTop_toBottomOf="@id/imageView2" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</FrameLayout>

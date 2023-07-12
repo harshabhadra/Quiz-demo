@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.leaderboard.LeaderBoardFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/leaderboard_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/scoreboard_bg">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/leader_board_recyclerview"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="80dp"
+            android:orientation="vertical"
+            app:constraintSet="@id/divider_view"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/divider_view"
+            app:layout_constraintStart_toStartOf="@id/divider_view"
+            app:layout_constraintTop_toBottomOf="@id/divider_view"
+            tools:itemCount="5"
+            tools:listitem="@layout/leader_board_list_item" />
+
+        <View
+            android:id="@+id/divider_view"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="32dp"
+            android:background="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/congrats_tv" />
+
+        <TextView
+            android:id="@+id/congrats_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:text="@string/congratulations_nhere_are_the_winners"
+            android:textColor="@color/white"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/third_iv"
+            app:layout_constraintStart_toStartOf="@+id/second_iv"
+            app:layout_constraintTop_toBottomOf="@+id/winner_tv" />
+
+        <TextView
+            android:id="@+id/third_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:text="@string/dummy_winner_detail"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="@+id/third_iv"
+            app:layout_constraintStart_toStartOf="@+id/third_iv"
+            app:layout_constraintTop_toBottomOf="@+id/third_iv" />
+
+        <TextView
+            android:id="@+id/winner_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:text="@string/dummy_winner_detail"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="@+id/winner_iv"
+            app:layout_constraintStart_toStartOf="@+id/winner_iv"
+            app:layout_constraintTop_toBottomOf="@+id/winner_iv" />
+
+        <TextView
+            android:id="@+id/second_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:text="@string/dummy_winner_detail"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="@+id/second_iv"
+            app:layout_constraintStart_toStartOf="@+id/second_iv"
+            app:layout_constraintTop_toBottomOf="@+id/second_iv" />
+
+        <ImageView
+            android:id="@+id/second_iv"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginEnd="-12dp"
+            android:src="@drawable/profile"
+            app:layout_constraintBottom_toBottomOf="@+id/winner_iv"
+            app:layout_constraintEnd_toStartOf="@+id/winner_iv"
+            app:layout_constraintTop_toTopOf="@+id/winner_iv" />
+
+        <ImageView
+            android:id="@+id/third_iv"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="-12dp"
+            android:src="@drawable/profile"
+            app:layout_constraintBottom_toBottomOf="@+id/winner_iv"
+            app:layout_constraintStart_toEndOf="@+id/winner_iv"
+            app:layout_constraintTop_toTopOf="@+id/winner_iv" />
+
+        <ImageView
+            android:id="@+id/winner_iv"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_marginTop="16dp"
+            android:src="@drawable/profile"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/button2" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="24dp"
+            android:backgroundTint="@color/white"
+            android:drawableEnd="@drawable/share"
+            android:text="@string/share"
+            android:textAllCaps="false"
+            android:textColor="@color/dark_purple"
+            app:cornerRadius="24dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/game_summary_bottom_sheet"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/purple_rounded_bg"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/game_summary_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="25dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="24dp"
+                android:drawablePadding="8dp"
+                android:gravity="center"
+                android:text="@string/game_summary"
+                android:textColor="@color/white"
+                android:textSize="24sp"
+                app:drawableEndCompat="@drawable/ic_baseline_keyboard_arrow_up_24"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/faster_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:gravity="center"
+                android:text="@string/dummy_percent_text"
+                android:textColor="@color/white"
+                android:textSize="24sp"
+                android:visibility="visible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/game_summary_tv" />
+
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/result_viewpager"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:visibility="visible"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+            <LinearLayout
+                android:id="@+id/indicatorContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="8dp" />
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                app:cardBackgroundColor="@color/yellow"
+                app:cardCornerRadius="16dp"
+                app:cardUseCompatPadding="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/kid" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="@string/enjoy_5_credits_off_nyour_next_quiz"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:text="@string/claim_offer"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="24dp"
+                android:background="@drawable/dark_purple_all_rounded_bg"
+                android:gravity="center"
+                android:padding="24dp"
+                android:text="@string/tip_nremember_you_can_t_learn_it_all_but_starting_with_topics_of_genuine_interest_will_not_only_make_learning_trivia_easier_but_it_will_make_trivia_more_fun"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginBottom="32sp"
+                android:padding="16dp"
+                android:text="@string/finish_game"
+                android:textAllCaps="false"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:backgroundTint="@color/white"
+                app:cornerRadius="24dp" />
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+
+    <!--    <include-->
+    <!--        android:id="@+id/bottom_sheet"-->
+    <!--        layout="@layout/fragment_game_summary"/>-->
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

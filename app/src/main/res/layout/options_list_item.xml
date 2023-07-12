@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_margin="8dp">
+
+    <com.skydoves.progressview.ProgressView
+        android:id="@+id/category_progress_view"
+        android:layout_width="match_parent"
+        android:layout_height="59dp"
+        app:progressView_autoAnimate="true"
+        app:progressView_orientation="horizontal"
+        app:progressView_colorBackground="@color/white"
+        app:progressView_colorProgress="#9E305F"
+        app:progressView_labelColorInner="@color/white"
+        app:progressView_labelColorOuter="@color/black"
+        app:progressView_labelSize="22sp"
+        app:progressView_labelSpace="20dp"
+        app:progressView_labelConstraints="align_progress"
+        app:progressView_labelTypeface="bold"
+        app:progressView_max="100"
+        app:progressView_min="0"
+        app:progressView_progress="0"
+        app:progressView_progressFromPrevious="true"
+        app:progressView_radius="28dp" >
+    </com.skydoves.progressview.ProgressView>
+    <TextView
+        android:id="@+id/vote_cat_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="Movies"
+        android:textStyle="bold"
+        android:layout_marginStart="16dp"
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        android:layout_gravity="center_vertical"/>
+    <TextView
+        android:id="@+id/no_of_vote_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="2015"
+        android:layout_marginEnd="12dp"
+        android:layout_marginStart="16dp"
+        android:textSize="20sp"
+        android:textColor="@color/light_grey"
+        android:layout_gravity="center_vertical|end"/>
+</FrameLayout>

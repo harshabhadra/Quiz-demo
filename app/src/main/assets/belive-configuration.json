@@ -1,0 +1,13 @@
+{
+  "features": {
+    "watcherList": true,
+    "beautyFilter": true,
+    "floatingText": true,
+    "shareButton": true,
+    "streamQuality": 1,
+    "streamPassword": true,
+    "allowPictureInPicture": true,
+    "shoppingCart": true,
+    "obs": false
+  }
+}

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="24dp"
+    android:elevation="50dp"
+    app:cardCornerRadius="24dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/thumbnailImageView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/image_showing_quiz_thumbnail"
+            android:scaleType="centerCrop"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/demo_back" />
+
+        <ImageView
+            android:id="@+id/castVoteButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="centerCrop"
+            android:src="@drawable/cast_vote"
+            app:drawableEndCompat="@drawable/ic_baseline_arrow_forward_24"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/thumbnailImageView" />
+
+        <TextView
+            android:id="@+id/quizDateTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:text="Today, 2pm"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/castVoteButton" />
+
+        <TextView
+            android:id="@+id/timeLeftTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:text="01:02:36 left"
+            android:textColor="@color/dark_grey"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/quizDateTv"
+            app:layout_constraintTop_toBottomOf="@+id/quizDateTv" />
+
+        <TextView
+            android:id="@+id/shareButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:drawablePadding="8dp"
+            android:padding="8dp"
+            android:text="@string/share"
+            android:textColor="@color/black"
+            app:drawableEndCompat="@drawable/share"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/quizDateTv" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

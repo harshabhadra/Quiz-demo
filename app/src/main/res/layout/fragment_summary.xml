@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardBackgroundColor="@color/deep_purple"
+    app:cardCornerRadius="32dp"
+    app:cardUseCompatPadding="true"
+    android:layout_marginBottom="16dp"
+    tools:context=".ui.leaderboard.gamesummary.SummaryFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <ImageView
+            android:id="@+id/imageView8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/yellow_progress"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView18"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="24dp"
+            android:text="@string/you_re_answer_45_more_questions_than_other_competitors"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView8" />
+
+        <TextView
+            android:id="@+id/textView19"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/what_were_you_good_at"
+            android:textColor="@color/white"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="@+id/textView18"
+            app:layout_constraintStart_toStartOf="@+id/textView18"
+            app:layout_constraintTop_toBottomOf="@+id/textView18" />
+
+        <ImageView
+            android:id="@+id/imageView14"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/poll"
+            app:layout_constraintEnd_toEndOf="@+id/textView19"
+            app:layout_constraintStart_toStartOf="@+id/textView19"
+            app:layout_constraintTop_toBottomOf="@+id/textView19" />
+
+        <TextView
+            android:id="@+id/textView20"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:text="@string/you_are_knowledgeable_in_90s_music_80_of_your_fastest_answers_were_base_on_those_questions"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/imageView14"
+            app:layout_constraintStart_toStartOf="@+id/imageView14"
+            app:layout_constraintTop_toBottomOf="@+id/imageView14" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph">
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.quiz.app.ui.home.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_homeFragment_to_quizDetailsFragment"
+            app:destination="@id/quizDetailsFragment"
+            app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/action_homeFragment_to_profileFragment"
+            app:destination="@id/profileFragment"
+            app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/action_homeFragment_to_votingFragment"
+            app:destination="@id/votingFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/quizDetailsFragment"
+        android:name="com.quiz.app.ui.quiz.details.QuizDetailsFragment"
+        android:label="fragment_quiz_details"
+        tools:layout="@layout/fragment_quiz_details" >
+        <argument
+            android:name="quiz_id"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_quizDetailsFragment_to_countDownFragment"
+            app:destination="@id/countDownFragment" />
+        <action
+            android:id="@+id/action_quizDetailsFragment_to_countDownFragment2"
+            app:destination="@id/countDownFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/quizFragment"
+        android:name="com.quiz.app.ui.quiz.QuizFragment"
+        android:label="fragment_quiz"
+        tools:layout="@layout/fragment_quiz" />
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.quiz.app.ui.profile.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/votingFragment"
+        android:name="com.quiz.app.ui.quiz.vote.VotingFragment"
+        android:label="fragment_voting"
+        tools:layout="@layout/fragment_voting" >
+        <argument
+            android:name="quiz_id"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/countDownFragment"
+        android:name="com.quiz.app.ui.quiz.CountDownFragment"
+        android:label="fragment_count_down"
+        tools:layout="@layout/fragment_count_down" >
+        <argument
+            android:name="customer_type"
+            app:argType="integer"
+            android:defaultValue="0" />
+        <argument
+            android:name="rtc_token"
+            app:argType="string" />
+        <argument
+            android:name="uid"
+            app:argType="integer"
+            android:defaultValue="-1" />
+        <argument
+            android:name="isLive"
+            app:argType="boolean"
+            android:defaultValue="false" />
+    </fragment>
+</navigation>
