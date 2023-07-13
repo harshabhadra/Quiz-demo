@@ -33,8 +33,8 @@ class CreditDataAdapter :
         fun bind(creditData: CreditData) {
             titleTextView.text = creditData.title
             dateTextView.text = creditData.date
-            creditTextView.text = creditData.credit.toString()
-            amountTextView.text = creditData.amount.toString()
+            creditTextView.text = "(${creditData.credit} credits)"
+            amountTextView.text = "$${creditData.amount}"
         }
     }
 
