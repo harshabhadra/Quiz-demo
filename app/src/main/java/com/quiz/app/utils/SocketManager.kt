@@ -14,7 +14,6 @@ class SocketManager {
     companion object {
         //http://192.168.1.38:3000/
         private const val SERVER_URL = BASE_URL
-        //http://quizz.eba-r5ciifhq.ap-south-1.elasticbeanstalk.com/
         private const val TAG = "SocketManager"
     }
 

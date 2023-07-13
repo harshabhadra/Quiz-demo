@@ -7,7 +7,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 //http://192.168.1.38:3000/
-const val BASE_URL = "http://192.168.1.38:3000/"//http://quizz.eba-r5ciifhq.ap-south-1.elasticbeanstalk.com/
+const val BASE_URL = "http://192.168.1.38:3000/"
 
 object ApiClient {
 
