@@ -5,8 +5,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import com.facebook.login.LoginManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -21,7 +23,8 @@ import com.quiz.app.network.apiService
 import com.quiz.app.ui.SplashActivity
 import com.quiz.app.utils.SessionManager
 
-class ProfileFragment : Fragment(), View.OnClickListener {
+class ProfileFragment : Fragment(), View.OnClickListener,
+    ProfileAdapter.OnProfileItemClickListener {
 
     companion object {
         fun newInstance() = ProfileFragment()
@@ -50,15 +53,12 @@ class ProfileFragment : Fragment(), View.OnClickListener {
         mGoogleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
         setClicks()
         val profileItems = listOf(
-            ProfileItem("Account", listOf("Manage account", "Credit wallet", "Referral code")),
-            ProfileItem("Content & Activity", listOf("Push notifications", "Past quizzes", "Ads")),
-            ProfileItem("Support", listOf("Provide feedback", "Help center")),
-            ProfileItem(
-                "About",
-                listOf("Community guidelines", "Terms of service", "Privacy policy")
-            )
+            ProfileItem("Account", listOf("Personal Information", "Credit Activity")),
+            ProfileItem("Content & Activity", listOf("Push notifications", "Past quizzes")),
+            ProfileItem("Support", listOf("Provide feedback", "Frequently asked questions")),
+            ProfileItem("About", listOf("Terms of service", " Privacy policy"))
         )
-        val adapter = ProfileAdapter()
+        val adapter = ProfileAdapter(this)
         binding.profileRecyclerView.adapter = adapter
         adapter.submitList(profileItems)
 
@@ -86,7 +86,8 @@ class ProfileFragment : Fragment(), View.OnClickListener {
     }
 
     private fun logout() {
-        val refreshToken = session(requireContext()).getPrefString(SessionManager.REFRESH_TOKEN)?:""
+        val refreshToken =
+            session(requireContext()).getPrefString(SessionManager.REFRESH_TOKEN) ?: ""
 //        MoxieApplication.session(requireContext()).deleteSaveData()
         viewModel.logout(refreshToken)
 //        startActivity(Intent(requireActivity(), SplashActivity::class.java))
@@ -105,5 +106,18 @@ class ProfileFragment : Fragment(), View.OnClickListener {
             binding.logOutButton -> checkLoginType()
             binding.profileBackIv -> findNavController().navigateUp()
         }
+    }
+
+    override fun onProfileItemClick(section: String) {
+        Toast.makeText(requireContext(), "$section", Toast.LENGTH_SHORT).show()
+        when (section) {
+            "Credit Activity" -> goToNextScreen(ProfileFragmentDirections.actionProfileFragmentToCreditActivityFragment())
+            "Past quizzes" -> goToNextScreen(ProfileFragmentDirections.actionProfileFragmentToPastQuizzesFragment())
+            "Terms of service", "Privacy policy" -> goToNextScreen(ProfileFragmentDirections.actionProfileFragmentToLegalInfoFragment())
+        }
+    }
+
+    private fun goToNextScreen(direction: NavDirections) {
+        findNavController().navigate(direction)
     }
 }

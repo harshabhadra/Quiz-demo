@@ -7,8 +7,13 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.quiz.app.R
 
-class ItemAdapter() : RecyclerView.Adapter<ItemAdapter.ItemViewHolder>() {
+class ItemAdapter(private val clickListener: OnProfileSubItemClickListener) :
+    RecyclerView.Adapter<ItemAdapter.ItemViewHolder>() {
     private var itemList: List<String> = emptyList()
+
+    interface OnProfileSubItemClickListener {
+        fun onProfileSubItemClick(value: String)
+    }
 
     inner class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val itemTextView: TextView = itemView.findViewById(R.id.itemTextView)
@@ -22,6 +27,9 @@ class ItemAdapter() : RecyclerView.Adapter<ItemAdapter.ItemViewHolder>() {
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         holder.itemTextView.text = itemList[position]
+        holder.itemTextView.setOnClickListener {
+            clickListener.onProfileSubItemClick(itemList[position])
+        }
     }
 
     override fun getItemCount() = itemList.size

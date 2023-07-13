@@ -10,9 +10,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.quiz.app.R
 
 data class ProfileItem(val title: String, val items: List<String>)
-class ProfileAdapter :
+class ProfileAdapter(private val clickListener: OnProfileItemClickListener) :
     ListAdapter<ProfileItem, ProfileAdapter.ProfileViewHolder>(ProfileItemDiffCallback()) {
 
+    interface OnProfileItemClickListener{
+        fun onProfileItemClick(section:String)
+    }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProfileViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.profile_item_layout, parent, false)
@@ -24,15 +27,20 @@ class ProfileAdapter :
         holder.bind(item)
     }
 
-    inner class ProfileViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val title: TextView = itemView.findViewById(R.id.title)
-        val itemsRecyclerView: RecyclerView = itemView.findViewById(R.id.itemsRecyclerView)
-        val itemAdapter = ItemAdapter()
+    inner class ProfileViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
+        ItemAdapter.OnProfileSubItemClickListener {
+        private val title: TextView = itemView.findViewById(R.id.title)
+        private val itemsRecyclerView: RecyclerView = itemView.findViewById(R.id.itemsRecyclerView)
+        private val itemAdapter = ItemAdapter(this)
 
         fun bind(profileItem: ProfileItem) {
             title.text = profileItem.title
             itemAdapter.setItems(profileItem.items)
             itemsRecyclerView.adapter = itemAdapter
+        }
+
+        override fun onProfileSubItemClick(value: String) {
+            clickListener.onProfileItemClick(value)
         }
     }
 

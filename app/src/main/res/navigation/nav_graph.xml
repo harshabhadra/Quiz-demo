@@ -2,7 +2,8 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/nav_graph">
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/creditActivityFragment">
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.quiz.app.ui.home.HomeFragment"
@@ -44,7 +45,17 @@
         android:id="@+id/profileFragment"
         android:name="com.quiz.app.ui.profile.ProfileFragment"
         android:label="fragment_profile"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_profileFragment_to_creditActivityFragment"
+            app:destination="@id/creditActivityFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_pastQuizzesFragment"
+            app:destination="@id/pastQuizzesFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_legalInfoFragment"
+            app:destination="@id/legalInfoFragment" />
+    </fragment>
     <fragment
         android:id="@+id/votingFragment"
         android:name="com.quiz.app.ui.quiz.vote.VotingFragment"
@@ -75,4 +86,19 @@
             app:argType="boolean"
             android:defaultValue="false" />
     </fragment>
+    <fragment
+        android:id="@+id/creditActivityFragment"
+        android:name="com.quiz.app.ui.profile.credit.CreditActivityFragment"
+        android:label="Credit Activity"
+        tools:layout="@layout/fragment_credit_activity" />
+    <fragment
+        android:id="@+id/pastQuizzesFragment"
+        android:name="com.quiz.app.ui.profile.pastQuizzes.PastQuizzesFragment"
+        android:label="Past Quizzes"
+        tools:layout="@layout/fragment_past_quizzes" />
+    <fragment
+        android:id="@+id/legalInfoFragment"
+        android:name="com.quiz.app.ui.profile.about.LegalInfoFragment"
+        android:label="fragment_legal_info"
+        tools:layout="@layout/fragment_legal_info" />
 </navigation>
