@@ -100,5 +100,9 @@
         android:id="@+id/legalInfoFragment"
         android:name="com.quiz.app.ui.profile.about.LegalInfoFragment"
         android:label="fragment_legal_info"
-        tools:layout="@layout/fragment_legal_info" />
+        tools:layout="@layout/fragment_legal_info" >
+        <argument
+            android:name="url"
+            app:argType="string" />
+    </fragment>
 </navigation>

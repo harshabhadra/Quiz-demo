@@ -56,7 +56,7 @@ class ProfileFragment : Fragment(), View.OnClickListener,
             ProfileItem("Account", listOf("Personal Information", "Credit Activity")),
             ProfileItem("Content & Activity", listOf("Push notifications", "Past quizzes")),
             ProfileItem("Support", listOf("Provide feedback", "Frequently asked questions")),
-            ProfileItem("About", listOf("Terms of service", " Privacy policy"))
+            ProfileItem("About", listOf("Terms of service", "Privacy policy"))
         )
         val adapter = ProfileAdapter(this)
         binding.profileRecyclerView.adapter = adapter
@@ -109,11 +109,20 @@ class ProfileFragment : Fragment(), View.OnClickListener,
     }
 
     override fun onProfileItemClick(section: String) {
-        Toast.makeText(requireContext(), "$section", Toast.LENGTH_SHORT).show()
         when (section) {
             "Credit Activity" -> goToNextScreen(ProfileFragmentDirections.actionProfileFragmentToCreditActivityFragment())
             "Past quizzes" -> goToNextScreen(ProfileFragmentDirections.actionProfileFragmentToPastQuizzesFragment())
-            "Terms of service", "Privacy policy" -> goToNextScreen(ProfileFragmentDirections.actionProfileFragmentToLegalInfoFragment())
+            "Terms of service" -> goToNextScreen(
+                ProfileFragmentDirections.actionProfileFragmentToLegalInfoFragment(
+                    "https://getlorem.com/privacy-policy"
+                )
+            )
+
+            "Privacy policy" -> goToNextScreen(
+                ProfileFragmentDirections.actionProfileFragmentToLegalInfoFragment(
+                    "https://getlorem.com/privacy-policy"
+                )
+            )
         }
     }
 
