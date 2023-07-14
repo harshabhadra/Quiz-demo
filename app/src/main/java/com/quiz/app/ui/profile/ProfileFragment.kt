@@ -59,13 +59,13 @@ class ProfileFragment : Fragment(), View.OnClickListener,
             ProfileItem("About", listOf("Terms of service", "Privacy policy"))
         )
         val adapter = ProfileAdapter(this)
-        binding.profileRecyclerView.adapter = adapter
+        binding.list.profileRecyclerView?.adapter = adapter
         adapter.submitList(profileItems)
 
     }
 
     private fun setClicks() {
-        binding.logOutButton.setOnClickListener(this)
+        binding.list.logOutButton?.setOnClickListener(this)
         binding.profileBackIv.setOnClickListener(this)
     }
 
@@ -103,7 +103,7 @@ class ProfileFragment : Fragment(), View.OnClickListener,
 
     override fun onClick(p0: View?) {
         when (p0) {
-            binding.logOutButton -> checkLoginType()
+            binding.list.logOutButton -> checkLoginType()
             binding.profileBackIv -> findNavController().navigateUp()
         }
     }

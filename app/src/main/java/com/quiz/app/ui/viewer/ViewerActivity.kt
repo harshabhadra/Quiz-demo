@@ -57,7 +57,7 @@ class ViewerActivity : AppCompatActivity(), ChatRoomChangeListener,
     private val chatUserName = "user1"
     private val receiverName = "user1"
     private val chatToken =
-        "007eJxTYHggvnRhQuHOh3M+X737bUvDscW2px8bszHYyJxrTtt2iem0AkOKublpsmFysqVJkqFJokVykrFZUkqqYVJiYmKaQbKJechco5SGQEYGU7E2BkYGViBmZADxVRhMUiwMjY0NDHRTjBMtdQ0NU1N0k4yTjXVNU5IMDU0TTc2STMwBk3cpOw=="
+        ""
 
     private val PERMISSION_REQ_ID = 22
     private val REQUESTED_PERMISSIONS = arrayOf<String>(
@@ -66,7 +66,7 @@ class ViewerActivity : AppCompatActivity(), ChatRoomChangeListener,
     )
 
     // Fill the App ID of your project generated on Agora Console.
-    private val appId = "00925574b4244e60bcd740e7b68f2996"
+    private val appId = ""
 
     // Fill the channel name.
     private val channelName = "test"
@@ -74,7 +74,7 @@ class ViewerActivity : AppCompatActivity(), ChatRoomChangeListener,
     // Fill the temp token generated on Agora Console.
     private lateinit var rtcToken: String
 
-    private val APP_KEY = "41937649#1095855"
+    private val APP_KEY = ""
 
     private val messageList: MutableSet<ChatMessage> = mutableSetOf()
     private lateinit var chatMessageAdapter: ChatMessageAdapter
