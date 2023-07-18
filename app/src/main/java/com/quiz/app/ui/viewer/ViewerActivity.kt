@@ -22,6 +22,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.quiz.app.MoxieApplication.Companion.session
 import com.quiz.app.R
 import com.quiz.app.ServiceLocator
@@ -35,7 +36,15 @@ import com.quiz.app.network.model.StreamState
 import com.quiz.app.network.model.asDomainOptionList
 import com.quiz.app.ui.EmojiAdapter
 import com.quiz.app.ui.MainActivity
-import com.quiz.app.utils.*
+import com.quiz.app.utils.ConstUtils
+import com.quiz.app.utils.FragConst
+import com.quiz.app.utils.NetworkUtils
+import com.quiz.app.utils.SessionManager
+import com.quiz.app.utils.SocketManager
+import com.quiz.app.utils.formatWithTwoDecimals
+import com.quiz.app.utils.getEmojiList
+import com.quiz.app.utils.hideKeyboard
+import com.quiz.app.utils.showFragment
 import io.agora.CallBack
 import io.agora.ChatRoomChangeListener
 import io.agora.ConnectionListener
@@ -44,8 +53,15 @@ import io.agora.chat.ChatClient
 import io.agora.chat.ChatMessage
 import io.agora.chat.ChatOptions
 import io.agora.chat.ChatRoom
-import io.agora.rtc2.*
+import io.agora.rtc2.ChannelMediaOptions
+import io.agora.rtc2.Constants
+import io.agora.rtc2.IAudioEffectManager
+import io.agora.rtc2.IRtcEngineEventHandler
+import io.agora.rtc2.RtcEngine
+import io.agora.rtc2.RtcEngineConfig
 import io.agora.rtc2.video.VideoCanvas
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.json.JSONObject
 
 
@@ -94,7 +110,7 @@ class ViewerActivity : AppCompatActivity(), ChatRoomChangeListener,
     private lateinit var localContainer: FrameLayout
     private lateinit var remoteContainer: FrameLayout
     private lateinit var binding: ActivityViewerBinding
-    private val chatroomId: String = "211155751600129"
+    private val chatroomId: String = ""
 
     private var type: Int = 0
     private lateinit var answerAdapter: AnswerAdapter
@@ -113,6 +129,26 @@ class ViewerActivity : AppCompatActivity(), ChatRoomChangeListener,
     private var seenQuestions = false
     private var isMuted = false
 
+    private var audioEffectManager: IAudioEffectManager? = null
+    private val soundEffectId = 1 // Unique identifier for the sound effect file
+    private val soundEffectIdTwo = 2
+    private val soundEffectIdThree = 3
+    private var currentEffectId = -1
+    private val soundEffectAppluse =
+        "https://www.soundjay.com/human/applause-01.mp3" // URL or path to the sound effect
+    private val soundEffectFail =
+        "https://www.soundjay.com/misc/sounds/fail-buzzer-01.mp3" // URL or path to the sound effect
+
+    private val soundEffectClock =
+        "https://assets.mixkit.co/active_storage/sfx/1047/1047-preview.mp3"
+    private var soundEffectStatus = 0
+    private val voiceEffectIndex = 0
+    private var audioPlaying = false // Manage the audio mixing state
+
+
+    private var audioFilePath = "https://www.kozco.com/tech/organfinale.mp3"
+    //https://www.kozco.com/tech/organfinale.mp3
+
     companion object {
         private const val TAG = "ViewerActivity"
     }
@@ -128,6 +164,7 @@ class ViewerActivity : AppCompatActivity(), ChatRoomChangeListener,
         val viewModelFactory = ServiceLocator.provideViewModelFactory(this, apiService)
         viewModel = ViewModelProvider(this, viewModelFactory)[ViewerViewModel::class.java]
 
+//        audioFilePath = "android.resource://" + packageName + "/" + R.raw.question_start
         type = intent.getIntExtra(ConstUtils.CUSTOMER_TYPE, 0)
         rtcToken = intent.getStringExtra(ConstUtils.RTC_TOKEN) ?: ""
         uid = intent.getIntExtra(ConstUtils.UID, -1)
@@ -145,6 +182,10 @@ class ViewerActivity : AppCompatActivity(), ChatRoomChangeListener,
         //Add Progress listener to circular progress bar
         binding.circularProgressBar.onProgressChangeListener = { progress ->
             canVote = progress < 100f
+            if (audioPlaying && progress == 100f) {
+                stopSoundEffect()
+                audioPlaying = false
+            }
         }
         Log.e(TAG, "rtc token: $rtcToken")
         // If all the permissions are granted, initialize the RtcEngine object and join a channel.
@@ -181,7 +222,7 @@ class ViewerActivity : AppCompatActivity(), ChatRoomChangeListener,
                     binding.counterTv.startAnimation(anim)
                     binding.counterTv.text = "${1 + (p0 / 1000)}"
                 } catch (e: Exception) {
-                    Log.e(TAG,"counter exception: ${e.message}")
+                    Log.e(TAG, "counter exception: ${e.message}")
                 }
             }
 
@@ -206,6 +247,7 @@ class ViewerActivity : AppCompatActivity(), ChatRoomChangeListener,
         Log.e(TAG, "stream state: $streamStatus, question start: $questionStart")
         when (streamStatus) {
             StreamStatus.LIVE -> {
+                stopAudio()
                 binding.timerGroup.visibility = View.GONE
                 binding.rightBackTv.visibility = View.GONE
                 if (questionStart) {
@@ -214,6 +256,7 @@ class ViewerActivity : AppCompatActivity(), ChatRoomChangeListener,
                     binding.questionLayout.visibility = View.VISIBLE
                     showSmallVideo()
                 } else {
+                    stopSoundEffect()
                     Handler(Looper.getMainLooper()).postDelayed({
                         binding.questionLayout.visibility = View.GONE
                         localContainer.visibility = View.GONE
@@ -224,12 +267,14 @@ class ViewerActivity : AppCompatActivity(), ChatRoomChangeListener,
             }
 
             StreamStatus.END -> {
+                stopAudio()
                 binding.questionLayout.visibility = View.GONE
                 remoteSurfaceView?.visibility = View.GONE
             }
 
             StreamStatus.PAUSED -> {
                 showBigVideo()
+                playAudioEffect()
                 binding.timerGroup.visibility = View.VISIBLE
                 binding.rightBackTv.visibility = View.VISIBLE
                 binding.questionLayout.visibility = View.GONE
@@ -247,8 +292,11 @@ class ViewerActivity : AppCompatActivity(), ChatRoomChangeListener,
             binding.questionTv.text = it.question.question
             binding.circularProgressBar.progress = 0f
             questionId = it.question.id
+//            playAudioEffect()
         }
-        it.question.options?.let { options -> submitOptionData(options) }
+        it.question.options?.let { options ->
+            submitOptionData(options)
+        }
             ?: let {
                 binding.optionsRecyclerview.visibility = View.GONE
                 answerAdapter.submitList(options)
@@ -257,6 +305,7 @@ class ViewerActivity : AppCompatActivity(), ChatRoomChangeListener,
 
     private fun submitOptionData(optionsList: List<Option>) {
         if (optionsList.isNotEmpty()) {
+            playSoundEffect(soundEffectIdThree, soundEffectClock)
             binding.optionsRecyclerview.visibility = View.VISIBLE
             options.addAll(optionsList.asDomainOptionList())
             hasAnswered = false
@@ -426,10 +475,10 @@ class ViewerActivity : AppCompatActivity(), ChatRoomChangeListener,
         // Destroy the engine in a sub-thread to avoid congestion
 
         // Destroy the engine in a sub-thread to avoid congestion
-        Thread {
+        lifecycleScope.launch(Dispatchers.Default) {
             RtcEngine.destroy()
             agoraEngine = null
-        }.start()
+        }
     }
 
     fun showMessage(message: String?) {
@@ -484,7 +533,8 @@ class ViewerActivity : AppCompatActivity(), ChatRoomChangeListener,
         override fun onJoinChannelSuccess(channel: String, uid: Int, elapsed: Int) {
             isJoined = true
             showMessage("Joined Channel $channel, uid: $uid")
-            runOnUiThread {
+            lifecycleScope.launch(Dispatchers.Main) {
+                setAudioEffects()
 //                loginToChatAgora()
             }
         }
@@ -507,6 +557,57 @@ class ViewerActivity : AppCompatActivity(), ChatRoomChangeListener,
         override fun onLeaveChannel(stats: RtcStats?) {
             super.onLeaveChannel(stats)
         }
+
+        override fun onAudioEffectFinished(soundId: Int) {
+            super.onAudioEffectFinished(soundId)
+            audioEffectManager?.stopEffect(soundId)
+            soundEffectStatus = 0
+        }
+    }
+
+    private fun stopAudio() {
+        agoraEngine?.stopAudioMixing()
+    }
+
+    private fun stopSoundEffect() {
+        Log.e(TAG,"current effect id: $currentEffectId")
+        if (currentEffectId != -1) {
+            audioEffectManager?.stopEffect(currentEffectId)
+        }
+
+    }
+
+    private fun setAudioEffects() {
+        // Set up the audio effects manager
+        audioEffectManager = agoraEngine?.audioEffectManager
+        audioEffectManager?.preloadEffect(soundEffectId, soundEffectAppluse)
+        audioEffectManager?.preloadEffect(soundEffectIdTwo, soundEffectFail)
+        audioEffectManager?.preloadEffect(soundEffectIdThree, soundEffectClock)
+    }
+
+    private fun playAudioEffect() {
+        Log.e(TAG, "playing audio effect")
+        try {
+            agoraEngine?.startAudioMixing(audioFilePath, true, 1, 0)
+            audioPlaying = true
+            showMessage("Audio playing")
+        } catch (e: java.lang.Exception) {
+            showMessage("Exception playing audio\n$e")
+        }
+    }
+
+    private fun playSoundEffect(effectId: Int, path: String, loop: Int = 0) {
+        currentEffectId = effectId
+        audioEffectManager?.playEffect(
+            effectId,   // The ID of the sound effect file.
+            path,   // The path of the sound effect file.
+            loop,  // The number of sound effect loops. -1 means an infinite loop. 0 means once.
+            1.0,   // The pitch of the audio effect. 1 represents the original pitch.
+            0.0, // The spatial position of the audio effect. 0.0 represents that the audio effect plays in the front.
+            100.0, // The volume of the audio effect. 100 represents the original volume.
+            false,// Whether to publish the audio effect to remote users.
+            0    // The playback starting position of the audio effect file in ms.
+        )
     }
 
     private fun setupRemoteVideo(uid: Int) {
@@ -560,13 +661,6 @@ class ViewerActivity : AppCompatActivity(), ChatRoomChangeListener,
                     options.channelProfile = Constants.CHANNEL_PROFILE_LIVE_BROADCASTING
                     // Set the client role as BROADCASTER or AUDIENCE according to the scenario.
                     options.clientRoleType = type
-//                    if (type == Constants.CLIENT_ROLE_BROADCASTER) { //Audience
-//                        setupLocalVideo()
-//                        localSurfaceView!!.visibility = View.VISIBLE
-//                        // Start local preview.
-//                        agoraEngine?.startPreview()
-//                    }
-                    // Join the channel with a temp token.
                     // You need to specify the user ID yourself, and ensure that it is unique in the channel.
                     agoraEngine?.joinChannel(rtcToken, channelName, uid, options)
                 } catch (e: Exception) {
@@ -826,6 +920,14 @@ class ViewerActivity : AppCompatActivity(), ChatRoomChangeListener,
             answerAdapter.notifyItemChanged(position)
             submitAnswer(option.id)
         }
+    }
+
+    override fun onCorrectAnswerClick(correct: Boolean) {
+        Log.e(TAG, "is correct answer: $correct")
+        playSoundEffect(
+            if (correct) soundEffectId else soundEffectIdTwo,
+            if (correct) soundEffectAppluse else soundEffectFail
+        )
     }
 
     private fun submitAnswer(optionId: String) {

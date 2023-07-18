@@ -56,7 +56,8 @@ class ProfileFragment : Fragment(), View.OnClickListener,
             ProfileItem("Account", listOf("Personal Information", "Credit Activity")),
             ProfileItem("Content & Activity", listOf("Push notifications", "Past quizzes")),
             ProfileItem("Support", listOf("Provide feedback", "Frequently asked questions")),
-            ProfileItem("About", listOf("Terms of service", "Privacy policy"))
+            ProfileItem("About", listOf("Terms of service", "Privacy policy")),
+            ProfileItem("", listOf("Log out"))
         )
         val adapter = ProfileAdapter(this)
         binding.list.profileRecyclerView?.adapter = adapter
@@ -123,6 +124,15 @@ class ProfileFragment : Fragment(), View.OnClickListener,
                     "https://getlorem.com/privacy-policy"
                 )
             )
+
+            "Log out" -> {
+                val refreshToken =
+                    session(requireContext()).getPrefString(SessionManager.REFRESH_TOKEN) ?: ""
+                viewModel.logout(refreshToken)
+                MoxieApplication.session(requireContext()).deleteSaveData()
+                startActivity(Intent(requireActivity(), SplashActivity::class.java))
+                requireActivity().finishAffinity()
+            }
         }
     }
 

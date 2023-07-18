@@ -10,7 +10,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="70dp">
+        android:paddingBottom="10dp">
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/materialCardView"
@@ -30,22 +30,23 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:layout_marginBottom="16dp"
-                >
+                android:layout_marginBottom="16dp">
+
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/kid"
-                    android:layout_marginStart="16dp"/>
+                    android:layout_marginStart="16dp"
+                    android:src="@drawable/kid" />
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_marginEnd="16dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/invite_friend_string"
                     android:textColor="@color/black"
                     android:textSize="16sp"
-                    android:layout_marginEnd="16dp"
-                    android:textStyle="bold"
-                    android:gravity="center_vertical"
-                    android:text="Invite a friend with your referral code to for them to get 120Rp and you 60Rp"/>
+                    android:textStyle="bold" />
             </LinearLayout>
 
         </com.google.android.material.card.MaterialCardView>
@@ -78,6 +79,7 @@
             android:textColor="@color/black"
             android:textSize="16sp"
             android:textStyle="bold"
+            android:visibility="gone"
             app:cornerRadius="30dp"
             app:layout_constraintEnd_toEndOf="@+id/profile_recyclerView"
             app:layout_constraintStart_toStartOf="@+id/profile_recyclerView"

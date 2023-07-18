@@ -15,9 +15,10 @@
         android:theme="@style/Theme.Moxie.AppBarOverlay">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/profile_collapsing_toolbar"
             style="@style/Widget.MaterialComponents.Toolbar.Primary"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:background="@null"
             android:fitsSystemWindows="true"
             app:contentScrim="@color/purple_100"
@@ -28,14 +29,16 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="?attr/actionBarSize"
-                android:paddingBottom="60dp">
+                app:layout_collapseMode="parallax"
+                android:paddingBottom="60dp"
+                android:layout_marginTop="?attr/actionBarSize">
 
 
                 <ImageView
                     android:id="@+id/imageView2"
                     android:layout_width="110dp"
                     android:layout_height="110dp"
+                    android:layout_marginTop="16dp"
                     android:src="@drawable/profileicon"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -95,6 +98,7 @@
                 android:layout_height="?attr/actionBarSize"
                 android:background="@drawable/custom_toolbar_bg"
                 app:layout_collapseMode="pin"
+                android:elevation="0dp"
                 app:popupTheme="@style/Theme.Moxie.PopupOverlay">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -136,7 +140,8 @@
         android:id="@+id/extra_cards_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_anchor="@id/list">
+        app:layout_anchorGravity="bottom"
+        app:layout_anchor="@id/profile_collapsing_toolbar">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/invite_card"
@@ -166,8 +171,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
                     android:layout_gravity="center"
+                    android:gravity="center"
                     android:text="Invite\nFriends"
                     android:textColor="@color/black" />
             </LinearLayout>
@@ -186,8 +191,8 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:minWidth="64dp"
                 android:layout_margin="8dp"
+                android:minWidth="64dp"
                 android:orientation="vertical">
 
                 <ImageView
@@ -199,8 +204,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
                     android:layout_gravity="center"
+                    android:gravity="center"
                     android:text="Buy\nCredits"
                     android:textColor="@color/black" />
             </LinearLayout>
@@ -219,9 +224,9 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_margin="8dp"
                 android:minWidth="64dp"
-                android:layout_gravity="center"
                 android:orientation="vertical">
 
                 <ImageView

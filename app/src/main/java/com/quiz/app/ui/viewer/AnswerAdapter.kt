@@ -34,6 +34,7 @@ class AnswerAdapter(
     private var totalAnswer = 0
     private var hasAnswerd = false
     private var completed = false
+    private var submitIndex = -1
 
     companion object {
         private const val TAG = "VotingCategoryAdapter"
@@ -41,6 +42,7 @@ class AnswerAdapter(
 
     interface OnAnswerItemClickListener {
         fun onAnswerItemClick(DomainOption: DomainOption, position: Int)
+        fun onCorrectAnswerClick(correct: Boolean)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -93,6 +95,7 @@ class AnswerAdapter(
                 optionTextview.setTextColor(Color.BLACK)
             }
             if (domainOption.hasVoted) {
+                submitIndex = position
                 val progress = (domainOption.votes.toFloat() / totalAnswer).times(100).roundToInt()
                 categoryProgressView.progress = progress.toFloat()
                 categoryProgressView.highlightView.color = Color.parseColor("#FFF8CC")//light yellow
@@ -118,6 +121,9 @@ class AnswerAdapter(
             }
 
             if (completed) {
+                if (position == submitIndex) {
+                    clickListener.onCorrectAnswerClick(domainOption.hasVoted && domainOption.isCorrect)
+                }
                 categoryProgressView.progress = 100f
                 categoryProgressView.highlightView.color =
                     if (domainOption.isCorrect) {

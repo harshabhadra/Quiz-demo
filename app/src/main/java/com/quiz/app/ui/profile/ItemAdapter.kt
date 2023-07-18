@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.quiz.app.R
 
@@ -27,6 +28,12 @@ class ItemAdapter(private val clickListener: OnProfileSubItemClickListener) :
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         holder.itemTextView.text = itemList[position]
+        holder.itemTextView.setTextColor(
+            ContextCompat.getColor(
+                holder.itemTextView.context,
+                if (itemList[position] == "Log out") R.color.glow_red else R.color.black
+            )
+        )
         holder.itemTextView.setOnClickListener {
             clickListener.onProfileSubItemClick(itemList[position])
         }

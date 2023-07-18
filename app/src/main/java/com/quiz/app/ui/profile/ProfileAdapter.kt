@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -35,6 +36,7 @@ class ProfileAdapter(private val clickListener: OnProfileItemClickListener) :
 
         fun bind(profileItem: ProfileItem) {
             title.text = profileItem.title
+            title.isVisible = profileItem.title.isNotEmpty()
             itemAdapter.setItems(profileItem.items)
             itemsRecyclerView.adapter = itemAdapter
         }
